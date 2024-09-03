@@ -14,6 +14,48 @@
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="css/icons.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    
+    <!-- Include jsPDF and html2canvas libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+
+  
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    async function downloadPDF() {
+        // Create a new PDF document
+        const { PDFDocument, rgb } = PDFLib;
+        const pdfDoc = await PDFDocument.create();
+
+        // Add a blank page to the document
+        const page = pdfDoc.addPage([600, 400]);
+        const { height } = page.getSize();
+        const fontSize = 30;
+
+        // Draw some text in the PDF
+        page.drawText('Hello, this is a PDF created using pdf-lib!', {
+            x: 50,
+            y: height - 4 * fontSize,
+            size: fontSize,
+            color: rgb(0, 0.53, 0.71),
+        });
+
+        // Serialize the PDF document to bytes
+        const pdfBytes = await pdfDoc.save();
+
+        // Create a link element and trigger the download
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+        link.download = 'resume.pdf';
+        link.click();
+    }
+
+    // Attach the function to the button
+    document.getElementById('lnkDownload').addEventListener('click', downloadPDF);
+});
+</script>
+
+  
 </head>
 
 <body>
@@ -25,8 +67,14 @@
                     class="navbar-toggler-icon"></span></button><!--end navbar-toggler-->
             <div class="collapse navbar-collapse" id="nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a class="btn btn-blue btn-sm px-4" href="#" id="lnkPrint"><i
-                                class="'uil uil-print mr-1 font-16"></i>Print</a></li>
+                    <li class="nav-item"><a class="btn btn-blue btn-sm px-4" href="#" id="lnkPrint">
+                        <i class="'uil uil-print mr-1 font-16"></i>Print</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-blue btn-sm px-4" href="#" id="lnkDownload">
+                            <i class="uil uil-download mr-1 font-16"></i>Download CV
+                        </a>
+                    </li>
                 </ul>
             </div><!--end collapse-->
         </div><!--end container-->
@@ -42,7 +90,7 @@
                         <div class="zoo-profile_user-detail">
                             <h5 class="zoo-user-name">Haripriya Yadav</h5>
                             <p class="cd-headline loading-bar"><span class="cd-words-wrapper"><b
-                                        class="is-visible">Angular Developer</b> </span></p>
+                                        class="is-visible">Angular Developer</b> <b>Nodejs API Developer</b> <b>MongoDB</b> </span></p>
                         </div><!--end zoo-profile_user-detail-->
                         <ul class="list-unstyled personal-detail mx-auto">
                             <li><i class="uil uil-phone-volume"></i> : +91 7007141371</li>
@@ -50,12 +98,12 @@
                         </ul><!--end personal-detail-->
                         <div class="profile-socials">
                             <ul class="list-inline social-icon text-center mx-auto mb-4">
-                                <li class="list-inline-item"><a href="#" class="bg-blue"><i
-                                            class="uil uil-facebook-f"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="bg-secondary"><i
-                                            class="uil uil-twitter"></i></a></li>
-                                <li class="list-inline-item"><a href="#" class="bg-pink"><i
-                                            class="uil uil-dribbble"></i></a></li>
+                        
+                                <li class="list-inline-item">
+                                    <a href="https://www.linkedin.com/in/haripriya-yadav-4113b6208?trk=contact-info" class="bg-primary">
+                                        <i class="uil uil-linkedin"></i>
+                                    </a>
+                                </li>
                             </ul><!--end social-icon-->
                         </div>
                     </div><!--end profile-box-left -->
@@ -72,8 +120,9 @@
                                             with 1.5 years of hands-on experience in creating dynamic
                                              web applications using modern technologies such as Node.js, MongoDB, and 
                                              AngularJS. My journey in software development has been driven by a 
-                                             passion for solving complex problems and building systems that enhance business operations.</p><button type="button"
-                                            class="btn btn-sm btn-soft-primary">Download CV</button>
+                                             passion for solving complex problems and building systems that enhance business operations.</p>
+                                            <button type="button"
+                                            class="btn btn-sm btn-soft-primary" id="lnkDownload">Download CV</button>
                                     </div><!--end col-->
                                     <div class="col-sm-5 col-print-5 offset-lg-1 align-self-center">
                                         <p><span class="personal-detail-title">Name</span> <span
